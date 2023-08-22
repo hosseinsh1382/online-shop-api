@@ -2,6 +2,7 @@
 using online_shop.Models.Product;
 using online_shop.Models.Product.Digital;
 using online_shop.Models.Product.Digital.DataStoring;
+using online_shop.Models.Product.Stationery;
 
 namespace online_shop.Data;
 
@@ -18,5 +19,8 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Pc>();
         modelBuilder.Entity<Usb>();
         modelBuilder.Entity<Ssd>();
+        modelBuilder.Entity<Pencil>();
+        modelBuilder.Entity<Pen>();
+        modelBuilder.Entity<NoteBook>();
     }
 }
