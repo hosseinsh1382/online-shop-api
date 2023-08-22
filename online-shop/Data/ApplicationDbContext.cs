@@ -3,6 +3,7 @@ using online_shop.Models.Product;
 using online_shop.Models.Product.Digital;
 using online_shop.Models.Product.Digital.DataStoring;
 using online_shop.Models.Product.Stationery;
+using online_shop.Models.Product.Vehicle;
 
 namespace online_shop.Data;
 
@@ -22,5 +23,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Pencil>();
         modelBuilder.Entity<Pen>();
         modelBuilder.Entity<NoteBook>();
+        modelBuilder.Entity<Automobile>();
+        modelBuilder.Entity<Bicycle>();
     }
 }
