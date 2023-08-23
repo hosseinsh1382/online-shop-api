@@ -4,7 +4,7 @@ using online_shop.Models.Product;
 
 namespace online_shop.Repository;
 
-public class ProductRepository:IProductRepository
+public class ProductRepository : IProductRepository
 {
     private readonly ApplicationDbContext _applicationDbContext;
 

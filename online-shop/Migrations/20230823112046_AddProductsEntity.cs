@@ -5,7 +5,7 @@
 namespace online_shop.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialSetup2 : Migration
+    public partial class AddProductsEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -10,8 +10,8 @@ using online_shop.Data;
 namespace online_shop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230822132239_UpdateEntities")]
-    partial class UpdateEntities
+    [Migration("20230823112026_InitialSetup")]
+    partial class InitialSetup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,9 +69,8 @@ namespace online_shop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<byte>("CategoryId")
+                        .HasColumnType("tinyint unsigned");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -85,105 +84,47 @@ namespace online_shop.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Product");
-
-                    b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("online_shop.Models.Product.Digital.DataStoring.Ssd", b =>
+            modelBuilder.Entity("online_shop.Models.Product.ProductCategory", b =>
                 {
-                    b.HasBaseType("online_shop.Models.Product.Product");
+                    b.Property<byte>("Id")
+                        .HasColumnType("tinyint unsigned");
 
-                    b.Property<int>("Capacity")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("int");
-
-                    b.Property<double>("Height")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
-
-                    b.Property<double>("Length")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
-
-                    b.Property<int>("ReadSpeed")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Weight")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
-
-                    b.Property<double>("Width")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
-
-                    b.Property<int>("WriteSpeed")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("Ssd");
-                });
-
-            modelBuilder.Entity("online_shop.Models.Product.Digital.DataStoring.Usb", b =>
-                {
-                    b.HasBaseType("online_shop.Models.Product.Product");
-
-                    b.Property<int>("Capacity")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("int");
-
-                    b.Property<double>("Height")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
-
-                    b.Property<double>("Length")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
-
-                    b.Property<string>("Version")
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<double>("Weight")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
+                    b.HasKey("Id");
 
-                    b.Property<double>("Width")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
-
-                    b.HasDiscriminator().HasValue("Usb");
+                    b.ToTable("ProductCategory");
                 });
 
-            modelBuilder.Entity("online_shop.Models.Product.Digital.Pc", b =>
+            modelBuilder.Entity("online_shop.Models.Product.ProductItem", b =>
                 {
-                    b.HasBaseType("online_shop.Models.Product.Product");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("CpuModel")
+                    b.Property<string>("Key")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<double>("Height")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
-
-                    b.Property<double>("Length")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
-
-                    b.Property<int>("RamCapacity")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Weight")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<double>("Width")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("double");
+                    b.HasKey("Id");
 
-                    b.HasDiscriminator().HasValue("Pc");
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductItem");
                 });
 
             modelBuilder.Entity("online_shop.Models.Comment", b =>
@@ -207,7 +148,31 @@ namespace online_shop.Migrations
 
             modelBuilder.Entity("online_shop.Models.Product.Product", b =>
                 {
+                    b.HasOne("online_shop.Models.Product.ProductCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("online_shop.Models.Product.ProductItem", b =>
+                {
+                    b.HasOne("online_shop.Models.Product.Product", "Product")
+                        .WithMany("Fields")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("online_shop.Models.Product.Product", b =>
+                {
                     b.Navigation("Comments");
+
+                    b.Navigation("Fields");
                 });
 #pragma warning restore 612, 618
         }
