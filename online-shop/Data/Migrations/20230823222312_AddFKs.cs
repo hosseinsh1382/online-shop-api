@@ -5,7 +5,7 @@
 namespace online_shop.Migrations
 {
     /// <inheritdoc />
-    public partial class AddProductsEntity : Migration
+    public partial class AddFKs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

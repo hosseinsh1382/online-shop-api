@@ -8,8 +8,8 @@ public class Product
     public int NumberInStock { get; set; }
 
     public byte CategoryId { get; set; }
-    public ProductCategory Category { get; set; }
+    public ProductCategory? Category { get; set; }
 
-    public ICollection<Comment> Comments { get; set; }
-    public ICollection<ProductItem> Fields { get; set; }
+    public ICollection<Comment>? Comments { get; set; }
+    public ICollection<ProductItem>? Fields { get; set; } = new List<ProductItem>();
 }

@@ -22,12 +22,34 @@ public class ProductsController : Controller
         return Ok(products);
     }
 
+    [HttpGet("{id}", Name = "GetProduct")]
+    public IActionResult Get(int id)
+    {
+        return Ok(_productRepository.GetProduct(id));
+    }
+
     [HttpPost]
-    public IActionResult AddProduct(Product product)
+    public IActionResult Add(Product product)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
         _productRepository.AddProduct(product);
         return Ok(product);
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, Product product)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        _productRepository.UpdateProduct(id, product);
+        return Ok();
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        _productRepository.DeleteProduct(id);
+        return Ok();
     }
 }

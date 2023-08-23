@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL("server=localhost;database=online-shop2;username=root;password=;"));
 

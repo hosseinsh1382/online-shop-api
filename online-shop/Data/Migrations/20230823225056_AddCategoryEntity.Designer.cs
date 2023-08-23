@@ -10,8 +10,8 @@ using online_shop.Data;
 namespace online_shop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230823112046_AddProductsEntity")]
-    partial class AddProductsEntity
+    [Migration("20230823225056_AddCategoryEntity")]
+    partial class AddCategoryEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,7 +60,7 @@ namespace online_shop.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("online_shop.Models.Product.Product", b =>
@@ -124,12 +124,12 @@ namespace online_shop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductItem");
+                    b.ToTable("ProductItems");
                 });
 
             modelBuilder.Entity("online_shop.Models.Comment", b =>
                 {
-                    b.HasOne("online_shop.Models.Product.Product", "Product")
+                    b.HasOne("online_shop.Models.Product.Product", null)
                         .WithMany("Comments")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -140,8 +140,6 @@ namespace online_shop.Migrations
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
 
                     b.Navigation("Status");
                 });
@@ -159,13 +157,11 @@ namespace online_shop.Migrations
 
             modelBuilder.Entity("online_shop.Models.Product.ProductItem", b =>
                 {
-                    b.HasOne("online_shop.Models.Product.Product", "Product")
+                    b.HasOne("online_shop.Models.Product.Product", null)
                         .WithMany("Fields")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("online_shop.Models.Product.Product", b =>

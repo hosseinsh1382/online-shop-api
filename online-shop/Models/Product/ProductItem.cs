@@ -6,6 +6,6 @@ public class ProductItem
     public string Key { get; set; }
     public string Value { get; set; }
 
-    public Product Product { get; set; }
     public int ProductId { get; set; }
+    
 }

@@ -11,9 +11,8 @@ public class Comment
 
     //[Required] public Buyer Buyer { get; set; }
 
-    public Product.Product Product { get; set; }
-    [Required] public int ProductId { get; set; }
+    public int ProductId { get; set; }
 
-    public CommentStatus Status { get; set; }
+    public CommentStatus? Status { get; set; }
     public byte StatusId { get; set; }
 }

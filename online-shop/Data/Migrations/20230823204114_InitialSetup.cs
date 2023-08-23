@@ -64,7 +64,7 @@ namespace online_shop.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -76,15 +76,15 @@ namespace online_shop.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_CommentStatus_StatusId",
+                        name: "FK_Comments_CommentStatus_StatusId",
                         column: x => x.StatusId,
                         principalTable: "CommentStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_Products_ProductId",
+                        name: "FK_Comments_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -93,7 +93,7 @@ namespace online_shop.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ProductItem",
+                name: "ProductItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -104,9 +104,9 @@ namespace online_shop.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductItem", x => x.Id);
+                    table.PrimaryKey("PK_ProductItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductItem_Products_ProductId",
+                        name: "FK_ProductItems_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -115,18 +115,18 @@ namespace online_shop.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_ProductId",
-                table: "Comment",
+                name: "IX_Comments_ProductId",
+                table: "Comments",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_StatusId",
-                table: "Comment",
+                name: "IX_Comments_StatusId",
+                table: "Comments",
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductItem_ProductId",
-                table: "ProductItem",
+                name: "IX_ProductItems_ProductId",
+                table: "ProductItems",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -139,10 +139,10 @@ namespace online_shop.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "ProductItem");
+                name: "ProductItems");
 
             migrationBuilder.DropTable(
                 name: "CommentStatus");
