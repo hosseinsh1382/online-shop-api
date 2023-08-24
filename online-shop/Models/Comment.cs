@@ -9,7 +9,7 @@ public class Comment
     [Required] public string Text { get; set; }
     public bool IsBuyerBoughtProduct { get; set; }
 
-    //[Required] public Buyer Buyer { get; set; }
+    public int BuyerId { get; set; }
 
     public int ProductId { get; set; }
 
