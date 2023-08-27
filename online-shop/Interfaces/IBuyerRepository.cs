@@ -13,5 +13,5 @@ public interface IBuyerRepository
 
     ICollection<Receipt> ReadAllReceipts(int id);
     Receipt ReadReceipt(int buyerId, int receiptId);
-    void CreateReceipt(int buyerId, ICollection<CartItem> products);
+    void CreateReceipt(int buyerId, Receipt receipt);
 }

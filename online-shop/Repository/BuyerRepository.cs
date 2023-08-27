@@ -68,7 +68,13 @@ public class BuyerRepository : IBuyerRepository
 
     public ICollection<Receipt> ReadAllReceipts(int id)
     {
-        var receipts = Read(id).Receipts;
+        var receipts = _dbContext.Receipt
+            .Where(r=>r.BuyerId==id)
+            .Include(r=>r.ReceiptCartItems)
+            .ThenInclude(c=>c.Product)
+            .ThenInclude(p=>p.Fields)
+            .ToList();
+        
         if (receipts == null)
         {
             Console.WriteLine("null");
@@ -89,14 +95,9 @@ public class BuyerRepository : IBuyerRepository
         return receipt;
     }
 
-    public void CreateReceipt(int buyerId, ICollection<CartItem> products)
+    public void CreateReceipt(int buyerId, Receipt receipt)
     {
         var buyer = Read(buyerId);
-        var receipt = new Receipt
-        {
-            Products = products,
-            Date = DateTime.Today
-        };
         buyer.Receipts.Add(receipt);
 
         _dbContext.SaveChanges();

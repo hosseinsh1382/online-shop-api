@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using online_shop.Interfaces;
+using online_shop.Models;
 
 namespace online_shop.Controllers;
 
@@ -24,5 +25,20 @@ public class ReceiptsController : Controller
     public IActionResult Get(int buyerId, int receiptId)
     {
         return Ok(_buyerRepository.ReadReceipt(buyerId, receiptId));
+    }
+
+    [HttpPost]
+    public IActionResult Post(int buyerId,ICollection<int> productIds)
+    {
+        var receipt = new Receipt
+        {
+            Date = DateTime.Now,
+            ReceiptCartItems = productIds.Select(productIds => new ReceiptCartItem
+            {
+                ProductId = productIds
+            }).ToList()
+        };
+        _buyerRepository.CreateReceipt(buyerId,receipt);
+        return Ok(receipt);
     }
 }

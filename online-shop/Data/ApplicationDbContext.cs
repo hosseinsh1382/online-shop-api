@@ -11,24 +11,17 @@ public class ApplicationDbContext : DbContext
     public DbSet<ProductItem> ProductItems { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<ProductCategory> ProductCategory { get; set; }
+    public DbSet<ReceiptCartItem> ReceiptCartItems { get; set; }
     public DbSet<Buyer> Buyers { get; set; }
+    public DbSet<Receipt> Receipt { get; set; }
 
     public ApplicationDbContext(DbContextOptions options) : base(options)
     {
     }
 
-    /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Product>()
-            .HasMany(p => p.Fields)
-            .WithOne(f => f.Product)
-            .HasForeignKey(p=>p.ProductId)
-            .IsRequired();
-
-        modelBuilder.Entity<Product>()
-            .HasMany(p => p.Comments)
-            .WithOne(c => c.Product)
-            .HasForeignKey(c=>c.ProductId)
-            .IsRequired();
-    }*/
+        modelBuilder.Entity<ReceiptCartItem>()
+            .HasKey(r => new { r.ReceiptId, r.ProductId });
+    }
 }
