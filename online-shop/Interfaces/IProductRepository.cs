@@ -1,12 +1,18 @@
-﻿using online_shop.Models.Product;
+﻿using online_shop.Models;
+using online_shop.Models.Product;
 
 namespace online_shop.Interfaces;
 
 public interface IProductRepository
 {
-    ICollection<Product> GetProducts();
-    Product GetProduct(int id);
-    void AddProduct(Product product);
-    void UpdateProduct(int id, Product product);
-    void DeleteProduct(int id);
+    ICollection<Product> ReadAll();
+    Product Read(int id);
+    void Create(Product product);
+    void Update(int id, Product product);
+    void Delete(int id);
+
+    ICollection<Comment> ReadAllComments(int productId);
+    /*Comment ReadComment(int productId, int commentId);
+    void CreateComment(int productId, string commentText);*/
+
 }

@@ -18,14 +18,14 @@ public class ProductsController : Controller
     [HttpGet]
     public IActionResult Get()
     {
-        var products = _productRepository.GetProducts();
+        var products = _productRepository.ReadAll();
         return Ok(products);
     }
 
     [HttpGet("{id}", Name = "GetProduct")]
     public IActionResult Get(int id)
     {
-        return Ok(_productRepository.GetProduct(id));
+        return Ok(_productRepository.Read(id));
     }
 
     [HttpPost]
@@ -33,7 +33,7 @@ public class ProductsController : Controller
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        _productRepository.AddProduct(product);
+        _productRepository.Create(product);
         return Ok(product);
     }
 
@@ -42,14 +42,14 @@ public class ProductsController : Controller
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        _productRepository.UpdateProduct(id, product);
+        _productRepository.Update(id, product);
         return Ok();
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        _productRepository.DeleteProduct(id);
+        _productRepository.Delete(id);
         return Ok();
     }
 }

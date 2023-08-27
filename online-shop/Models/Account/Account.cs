@@ -8,7 +8,7 @@ public class Account
     public string Email { get; set; }
     public string? Firstname { get; set; }
     public string? Lastname { get; set; }
-    
-    public byte RollId { get; set; }
-    public AccountRoll Roll { get; set; }
+
+    public byte RollId { get; set; } = 1;
+    public AccountRoll? Roll { get; set; }
 }

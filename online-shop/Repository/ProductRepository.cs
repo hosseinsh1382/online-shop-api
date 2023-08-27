@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using online_shop.Data;
 using online_shop.Interfaces;
-using Online_Shop.Models;
+using online_shop.Models;
 using online_shop.Models.Product;
 
 namespace online_shop.Repository;
@@ -15,7 +15,7 @@ public class ProductRepository : IProductRepository
         _applicationDbContext = applicationDbContext;
     }
 
-    public ICollection<Product> GetProducts()
+    public ICollection<Product> ReadAll()
     {   
         return _applicationDbContext.Products
             .Include(p=>p.Comments)
@@ -24,18 +24,18 @@ public class ProductRepository : IProductRepository
             .ToList();
     }
 
-    public Product GetProduct(int id)
+    public Product Read(int id)
     {
         return _applicationDbContext.Products.Single(p => p.Id == id);
     }
 
-    public void AddProduct(Product product)
+    public void Create(Product product)
     {
         _applicationDbContext.Products.Add(product);
         _applicationDbContext.SaveChanges();
     }
 
-    public void UpdateProduct(int id, Product product)
+    public void Update(int id, Product product)
     {
         var productInDb = _applicationDbContext.Products.Single(p => p.Id == id);
 
@@ -47,10 +47,16 @@ public class ProductRepository : IProductRepository
         _applicationDbContext.SaveChanges();
     }
 
-    public void DeleteProduct(int id)
+    public void Delete(int id)
     {
         var product = _applicationDbContext.Products.Single(p => p.Id == id);
         _applicationDbContext.Products.Remove(product);
         _applicationDbContext.SaveChanges();
     }
+
+    public ICollection<Comment> ReadAllComments(int productId)
+    {
+        return Read(productId).Comments.ToList();
+    }
+    
 }
