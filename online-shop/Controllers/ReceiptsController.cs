@@ -24,11 +24,11 @@ public class ReceiptsController : Controller
     [HttpGet("{receiptId}")]
     public IActionResult Get(int buyerId, int receiptId)
     {
-        return Ok(_buyerRepository.ReadReceipt(buyerId, receiptId));
+        return Ok(_buyerRepository.ReadReceipt(receiptId));
     }
 
     [HttpPost]
-    public IActionResult Post(int buyerId,ICollection<int> productIds)
+    public IActionResult Post(int buyerId, ICollection<int> productIds)
     {
         var receipt = new Receipt
         {
@@ -38,7 +38,7 @@ public class ReceiptsController : Controller
                 ProductId = productIds
             }).ToList()
         };
-        _buyerRepository.CreateReceipt(buyerId,receipt);
+        _buyerRepository.CreateReceipt(buyerId, receipt);
         return Ok(receipt);
     }
 }

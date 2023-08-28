@@ -9,10 +9,12 @@ public class Comment
     [Required] public string Text { get; set; }
     public bool IsBuyerBoughtProduct { get; set; }
 
-    public int BuyerId { get; set; }
+    [Required] public int BuyerId { get; set; }
 
-    public int ProductId { get; set; }
+    [Required] public int ProductId { get; set; }
+
+    public DateTime Date { get; set; } = DateTime.Now;
 
     public CommentStatus? Status { get; set; }
-    public byte StatusId { get; set; }
+    public byte StatusId { get; set; } = 1;
 }

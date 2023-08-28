@@ -12,7 +12,8 @@ public interface IProductRepository
     void Delete(int id);
 
     ICollection<Comment> ReadAllComments(int productId);
-    /*Comment ReadComment(int productId, int commentId);
-    void CreateComment(int productId, string commentText);*/
+    Comment ReadComment(int commentId);
+    void CreateComment(Comment comment);
 
+    void UpdateComment(int commentId, Comment comment);
 }

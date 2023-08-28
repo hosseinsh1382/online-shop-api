@@ -12,6 +12,6 @@ public interface IBuyerRepository
     void Delete(int id);
 
     ICollection<Receipt> ReadAllReceipts(int id);
-    Receipt ReadReceipt(int buyerId, int receiptId);
+    Receipt ReadReceipt(int receiptId);
     void CreateReceipt(int buyerId, Receipt receipt);
 }

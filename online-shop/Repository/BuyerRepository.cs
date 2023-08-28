@@ -74,25 +74,14 @@ public class BuyerRepository : IBuyerRepository
             .ThenInclude(c=>c.Product)
             .ThenInclude(p=>p.Fields)
             .ToList();
-        
-        if (receipts == null)
-        {
-            Console.WriteLine("null");
-        }
-
         return receipts;
     }
 
-    public Receipt ReadReceipt(int buyerId, int receiptId)
+    public Receipt ReadReceipt(int receiptId)
     {
-        var buyer = Read(buyerId);
-        var receipt = buyer.Receipts.Single(r => r.Id == receiptId);
-        if (receipt == null)
-        {
-            throw new NotFoundException("Receipt not found");
-        }
-
-        return receipt;
+        /*var buyer = Read(buyerId);
+        return buyer.Receipts.Single(r => r.Id == receiptId);*/
+        return _dbContext.Receipt.SingleOrDefault(r => r.Id == receiptId);
     }
 
     public void CreateReceipt(int buyerId, Receipt receipt)
