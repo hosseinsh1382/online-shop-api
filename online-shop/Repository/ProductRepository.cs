@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using online_shop.Data;
+using online_shop.Dtos;
 using online_shop.Interfaces;
 using online_shop.Models;
 using online_shop.Models.Product;
@@ -56,7 +57,10 @@ public class ProductRepository : IProductRepository
 
     public ICollection<Comment> ReadAllComments(int productId)
     {
-        return _dbContext.Comments.Where(c => c.ProductId == productId).ToList();
+        return _dbContext.Comments
+            .Where(c => c.ProductId == productId)
+            .Include(c=>c.Status)
+            .ToList();
     }
 
     public Comment ReadComment(int commentId)
@@ -64,13 +68,23 @@ public class ProductRepository : IProductRepository
         return _dbContext.Comments.SingleOrDefault(c => c.Id == commentId);
     }
 
-    public void CreateComment(Comment comment)
+    public Comment CreateComment(int prouctId, CommentDto commentDto)
     {
+        var comment = new Comment
+        {
+            Text = commentDto.Text,
+            BuyerId = commentDto.BuyerId,
+            ProductId = prouctId,
+            IsBuyerBoughtProduct = commentDto.IsBuyerBoughtProduct,
+            StatusId = 1,
+            Date = DateTime.Now
+        };
         _dbContext.Comments.Add(comment);
         _dbContext.SaveChanges();
+        return comment;
     }
 
-    public void UpdateComment(int commentId, Comment comment)
+    public void UpdateComment(int commentId, CommentDto comment)
     {
         var commentInDb = ReadComment(commentId);
 

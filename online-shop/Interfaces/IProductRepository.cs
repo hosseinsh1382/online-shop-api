@@ -1,4 +1,5 @@
-﻿using online_shop.Models;
+﻿using online_shop.Dtos;
+using online_shop.Models;
 using online_shop.Models.Product;
 
 namespace online_shop.Interfaces;
@@ -13,7 +14,7 @@ public interface IProductRepository
 
     ICollection<Comment> ReadAllComments(int productId);
     Comment ReadComment(int commentId);
-    void CreateComment(Comment comment);
+    Comment CreateComment(int productId,CommentDto comment);
 
-    void UpdateComment(int commentId, Comment comment);
+    void UpdateComment(int commentId, CommentDto comment);
 }

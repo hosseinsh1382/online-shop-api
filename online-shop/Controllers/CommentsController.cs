@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using online_shop.Dtos;
 using online_shop.Interfaces;
 using online_shop.Models;
 
@@ -28,19 +29,18 @@ public class CommentsController : Controller
     }
 
     [HttpPost]
-    public IActionResult Post(Comment comment)
+    public IActionResult Post(CommentDto comment,int productId)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-
-        _repository.CreateComment(comment);
-        return Ok(comment);
+        
+        return Ok(_repository.CreateComment(productId,comment));
     }
 
     [HttpPut]
-    public IActionResult Put(int commentId, Comment comment)
+    public IActionResult Put(int commentId, CommentDto comment)
     {
         if (!ModelState.IsValid)
         {

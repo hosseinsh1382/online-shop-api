@@ -22,9 +22,6 @@
 
 
 
-    <ItemGroup>
-      <Folder Include="Dtos\" />
-    </ItemGroup>
 
     </ItemGroup>
 
