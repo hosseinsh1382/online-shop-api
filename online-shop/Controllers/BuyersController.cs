@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using online_shop.Interfaces;
+using online_shop.Models;
 using online_shop.Models.Account;
 
 namespace online_shop.Controllers;

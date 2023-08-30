@@ -8,37 +8,22 @@ namespace online_shop.Controllers;
 [Route("api/buyers/{buyerId}/[controller]")]
 public class ReceiptsController : Controller
 {
-    private readonly IBuyerRepository _buyerRepository;
+    private readonly IReceiptRepository _repository;
 
-    public ReceiptsController(IBuyerRepository buyerRepository)
+    public ReceiptsController(IReceiptRepository repository)
     {
-        _buyerRepository = buyerRepository;
+        _repository = repository;
     }
 
     [HttpGet]
     public IActionResult Get(int buyerId)
     {
-        return Ok(_buyerRepository.ReadAllReceipts(buyerId));
+        return Ok(_repository.ReadAllReceipts(buyerId));
     }
 
     [HttpGet("{receiptId}")]
     public IActionResult Get(int buyerId, int receiptId)
     {
-        return Ok(_buyerRepository.ReadReceipt(receiptId));
-    }
-
-    [HttpPost]
-    public IActionResult Post(int buyerId, ICollection<int> productIds)
-    {
-        var receipt = new Receipt
-        {
-            Date = DateTime.Now,
-            ReceiptCartItems = productIds.Select(productIds => new ReceiptCartItem
-            {
-                ProductId = productIds
-            }).ToList()
-        };
-        _buyerRepository.CreateReceipt(buyerId, receipt);
-        return Ok(receipt);
+        return Ok(_repository.ReadReceipt(receiptId));
     }
 }

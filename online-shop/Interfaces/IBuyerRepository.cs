@@ -1,5 +1,4 @@
-﻿using online_shop.Models;
-using online_shop.Models.Account;
+﻿using online_shop.Models.Account;
 
 namespace online_shop.Interfaces;
 
@@ -10,8 +9,4 @@ public interface IBuyerRepository
     Buyer Create(Buyer buyer);
     void Update(int id, Buyer buyer);
     void Delete(int id);
-
-    ICollection<Receipt> ReadAllReceipts(int id);
-    Receipt ReadReceipt(int receiptId);
-    void CreateReceipt(int buyerId, Receipt receipt);
 }

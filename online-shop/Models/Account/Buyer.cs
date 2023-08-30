@@ -1,9 +1,11 @@
-﻿namespace online_shop.Models.Account;
+﻿using System.ComponentModel;
 
-public class Buyer:Account
+namespace online_shop.Models.Account;
+
+public class Buyer : Account
 {
-    public Double Credit { get; set; }
-    
+    [DefaultValue(0)] public double? Credit { get; set; }
+
     public ICollection<Comment>? PostedComments { get; set; }
 
     public List<CartItem>? Cart { get; set; }

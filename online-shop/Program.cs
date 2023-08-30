@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using online_shop.Data;
 using online_shop.Interfaces;
+using online_shop.Models;
 using online_shop.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IBuyerRepository, BuyerRepository>();
+builder.Services.AddTransient<ICartRepository, CartRepository>();
+builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IReceiptRepository, ReceiptRepository>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL("server=localhost;database=online-shop2;username=root;password=;"));

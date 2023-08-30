@@ -20,18 +20,37 @@ public class BuyerRepository : IBuyerRepository
     public ICollection<Buyer> ReadAll()
     {
         return _dbContext.Buyers
-            .Include(b => b.Receipts)
-            .Include(b => b.Cart)
             .Include(b => b.Roll)
+            .Include(b => b.Receipts)!
+            .ThenInclude(r => r.ReceiptCartItems)
+            .ThenInclude(r => r.Product)
+            .Include(b => b.Cart)!
+            .ThenInclude(c => c.Product)
+            .ThenInclude(c => c.Category)
+            .Include(b => b.Cart)!
+            .ThenInclude(c => c.Product)
+            .ThenInclude(p => p.Fields)
             .ToList();
     }
 
     public Buyer Read(int id)
     {
         var buyer = _dbContext.Buyers
-            .Include(b=>b.Receipts)
-            .Include(b=>b.Cart)
-            .Include(b=>b.Roll)
+            .Include(b => b.Roll)
+            .Include(b => b.Receipts)!
+            .ThenInclude(r => r.ReceiptCartItems)
+            .ThenInclude(r => r.Product)
+            .ThenInclude(p => p.Fields)
+            .Include(b => b.Receipts)!
+            .ThenInclude(r => r.ReceiptCartItems)
+            .ThenInclude(r => r.Product)
+            .ThenInclude(p => p.Category)
+            .Include(b => b.Cart)!
+            .ThenInclude(c => c.Product)
+            .ThenInclude(c => c.Category)
+            .Include(b => b.Cart)
+            .ThenInclude(c => c.Product)
+            .ThenInclude(p => p.Fields)
             .SingleOrDefault(b => b.Id == id);
         if (buyer == null)
             throw new NotFoundException("Buyer not found");
@@ -64,32 +83,6 @@ public class BuyerRepository : IBuyerRepository
         var buyer = _dbContext.Buyers.Single(b => b.Id == id);
 
         _dbContext.Buyers.Remove(buyer);
-        _dbContext.SaveChanges();
-    }
-
-    public ICollection<Receipt> ReadAllReceipts(int id)
-    {
-        var receipts = _dbContext.Receipt
-            .Where(r=>r.BuyerId==id)
-            .Include(r=>r.ReceiptCartItems)
-            .ThenInclude(c=>c.Product)
-            .ThenInclude(p=>p.Fields)
-            .ToList();
-        return receipts;
-    }
-
-    public Receipt ReadReceipt(int receiptId)
-    {
-        /*var buyer = Read(buyerId);
-        return buyer.Receipts.Single(r => r.Id == receiptId);*/
-        return _dbContext.Receipt.SingleOrDefault(r => r.Id == receiptId);
-    }
-
-    public void CreateReceipt(int buyerId, Receipt receipt)
-    {
-        var buyer = Read(buyerId);
-        buyer.Receipts.Add(receipt);
-
         _dbContext.SaveChanges();
     }
 }
