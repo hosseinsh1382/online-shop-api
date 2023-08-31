@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using online_shop.Interfaces;
-using online_shop.Models;
 using online_shop.Models.Account;
 
 namespace online_shop.Controllers;
@@ -41,7 +40,8 @@ public class BuyersController : Controller
         }
 
         _repository.Create(buyer);
-        return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}/api/Buyers/{buyer.Id}", buyer);
+        return Created(
+            $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}/api/Buyers/{buyer.Id}", buyer);
     }
 
     [HttpPut("{id}")]
@@ -50,14 +50,17 @@ public class BuyersController : Controller
         if (!ModelState.IsValid)
             return BadRequest();
 
-        _repository.Update(id, buyer);
-        return Ok();
+        if (_repository.Update(id, buyer))
+            return Ok();
+
+        return NotFound();
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        _repository.Delete(id);
-        return Ok();
+        if (_repository.Delete(id))
+            return Ok();
+        return NotFound();
     }
 }

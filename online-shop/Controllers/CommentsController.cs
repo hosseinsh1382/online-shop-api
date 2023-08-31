@@ -42,14 +42,15 @@ public class CommentsController : Controller
     }
 
     [HttpPut]
-    public IActionResult Put(int commentId, CommentDto comment)
+    public IActionResult Update(int commentId, CommentDto comment)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        _repository.Update(commentId, comment);
-        return Ok();
+        if (_repository.Update(commentId, comment))
+            return Ok();
+        return NotFound();
     }
 }

@@ -14,7 +14,7 @@ public class OrderRepository : IOrderRepository
     public OrderRepository(ApplicationDbContext dbContext, IReceiptRepository receiptRepository)
     {
         _dbContext = dbContext;
-      _receiptRepository = receiptRepository;
+        _receiptRepository = receiptRepository;
     }
 
     public Receipt FinalizeBuy(int buyerId)

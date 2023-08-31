@@ -19,7 +19,9 @@ public class CartsController : Controller
     public IActionResult AddToCart(CartItem cartItem)
     {
         var cart = _repository.AddToCart(cartItem);
-        return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}/buyers/{cartItem.BuyerId}/Cart",cartItem);
+        return Created(
+            $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}/buyers/{cartItem.BuyerId}/Cart",
+            cartItem);
     }
 
     [HttpDelete]
@@ -32,8 +34,9 @@ public class CartsController : Controller
     [HttpDelete("{cartItemId}")]
     public IActionResult Delete(int cartItemId)
     {
-        _repository.Delete(cartItemId);
-        return Ok();
+        if (_repository.Delete(cartItemId))
+            return Ok();
+        return NotFound();
     }
 
     [HttpGet]
@@ -46,10 +49,11 @@ public class CartsController : Controller
     public IActionResult GetCart(int cartItemId)
     {
         var cartItem = _repository.Read(cartItemId);
-        if (cartItem==null)
+        if (cartItem == null)
         {
             return NotFound();
         }
+
         return Ok(cartItem);
     }
 }

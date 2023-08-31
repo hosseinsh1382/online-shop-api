@@ -49,14 +49,16 @@ public class ProductsController : Controller
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        _productRepository.Update(id, product);
-        return Ok();
+        if (_productRepository.Update(id, product))
+            return Ok();
+        return NotFound();
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        _productRepository.Delete(id);
-        return Ok();
+        if (_productRepository.Delete(id))
+            return Ok();
+        return NotFound();
     }
 }
