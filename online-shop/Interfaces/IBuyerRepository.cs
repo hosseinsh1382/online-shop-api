@@ -7,6 +7,6 @@ public interface IBuyerRepository
     ICollection<Buyer> ReadAll();
     Buyer? Read(int id);
     Buyer Create(Buyer buyer);
-    void Update(int id, Buyer buyer);
-    void Delete(int id);
+    bool Update(int id, Buyer buyer);
+    bool Delete(int id);
 }

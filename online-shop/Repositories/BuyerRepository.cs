@@ -59,10 +59,14 @@ public class BuyerRepository : IBuyerRepository
         return buyer;
     }
 
-    public void Update(int id, Buyer buyer)
+    public bool Update(int id, Buyer buyer)
     {
         var buyerInDb = Read(id);
 
+        if (buyerInDb==null)
+        {
+            return false;
+        }
         buyerInDb.Username = buyer.Username;
         buyerInDb.Password = buyer.Password;
         buyerInDb.Email = buyer.Email;
@@ -71,13 +75,21 @@ public class BuyerRepository : IBuyerRepository
         buyerInDb.Credit = buyer.Credit;
 
         _dbContext.SaveChanges();
+        return true;
     }
 
-    public void Delete(int id)
+    public bool Delete(int id)
     {
-        var buyer = _dbContext.Buyers.Single(b => b.Id == id);
+        var buyer = Read(id);
+
+        if (buyer==null)
+        {
+            return false;
+        }
 
         _dbContext.Buyers.Remove(buyer);
         _dbContext.SaveChanges();
+
+        return true;
     }
 }

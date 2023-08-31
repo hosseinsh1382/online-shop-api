@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using online_shop.Dtos;
 using online_shop.Interfaces;
-using online_shop.Models;
 
 namespace online_shop.Controllers;
 
@@ -9,9 +8,9 @@ namespace online_shop.Controllers;
 [Route("api/Products/{productId}/[controller]")]
 public class CommentsController : Controller
 {
-    private readonly IProductRepository _repository;
+    private readonly ICommentRepository _repository;
 
-    public CommentsController(IProductRepository repository)
+    public CommentsController(ICommentRepository repository)
     {
         _repository = repository;
     }
@@ -19,13 +18,13 @@ public class CommentsController : Controller
     [HttpGet]
     public IActionResult GetAll(int productId)
     {
-        return Ok(_repository.ReadAllComments(productId));
+        return Ok(_repository.ReadAll(productId));
     }
 
     [HttpGet("{commentId}", Name = "GetComment")]
     public IActionResult Get(int commentId)
     {
-        return Ok(_repository.ReadComment(commentId));
+        return Ok(_repository.Read(commentId));
     }
 
     [HttpPost]
@@ -36,7 +35,7 @@ public class CommentsController : Controller
             return BadRequest(ModelState);
         }
 
-        var comment = _repository.CreateComment(productId, commentDto);
+        var comment = _repository.Create(productId, commentDto);
         return Created(
             $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}/products/{productId}/comments/{comment.Id}",
             comment);
@@ -50,7 +49,7 @@ public class CommentsController : Controller
             return BadRequest(ModelState);
         }
 
-        _repository.UpdateComment(commentId, comment);
+        _repository.Update(commentId, comment);
         return Ok();
     }
 }

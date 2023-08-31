@@ -17,6 +17,7 @@ builder.Services.AddTransient<IBuyerRepository, BuyerRepository>();
 builder.Services.AddTransient<ICartRepository, CartRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IReceiptRepository, ReceiptRepository>();
+builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL("server=localhost;database=online-shop2;username=root;password=;"));

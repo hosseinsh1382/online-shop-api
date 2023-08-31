@@ -9,12 +9,7 @@ public interface IProductRepository
     ICollection<Product> ReadAll();
     Product? Read(int id);
     void Create(Product product);
-    void Update(int id, Product product);
-    void Delete(int id);
+    bool Update(int id, Product product);
+    bool Delete(int id);
 
-    ICollection<Comment> ReadAllComments(int productId);
-    Comment ReadComment(int commentId);
-    Comment CreateComment(int productId,CommentDto comment);
-
-    void UpdateComment(int commentId, CommentDto comment);
 }

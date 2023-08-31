@@ -10,5 +10,5 @@ public interface ICartRepository
 
     void DeleteAll(int buyerId);
 
-    void Delete(int cartItemId);
+    bool Delete(int cartItemId);
 }

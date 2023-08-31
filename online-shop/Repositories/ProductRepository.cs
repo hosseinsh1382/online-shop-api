@@ -36,9 +36,12 @@ public class ProductRepository : IProductRepository
         _dbContext.SaveChanges();
     }
 
-    public void Update(int id, Product product)
+    public bool Update(int id, Product product)
     {
-        var productInDb = _dbContext.Products.Single(p => p.Id == id);
+        var productInDb = Read(id);
+        if (productInDb == null)
+            return false;
+
 
         productInDb.Name = product.Name;
         productInDb.Price = product.Price;
@@ -46,52 +49,19 @@ public class ProductRepository : IProductRepository
         productInDb.CategoryId = product.CategoryId;
 
         _dbContext.SaveChanges();
+
+        return true;
     }
 
-    public void Delete(int id)
+    public bool Delete(int id)
     {
-        var product = _dbContext.Products.Single(p => p.Id == id);
+        var product =Read(id);
+
+        if (product == null)
+            return false;
         _dbContext.Products.Remove(product);
         _dbContext.SaveChanges();
-    }
 
-    public ICollection<Comment> ReadAllComments(int productId)
-    {
-        return _dbContext.Comments
-            .Where(c => c.ProductId == productId)
-            .Include(c=>c.Status)
-            .ToList();
-    }
-
-    public Comment ReadComment(int commentId)
-    {
-        return _dbContext.Comments.SingleOrDefault(c => c.Id == commentId);
-    }
-
-    public Comment CreateComment(int prouctId, CommentDto commentDto)
-    {
-        var comment = new Comment
-        {
-            Text = commentDto.Text,
-            BuyerId = commentDto.BuyerId,
-            ProductId = prouctId,
-            IsBuyerBoughtProduct = commentDto.IsBuyerBoughtProduct,
-            StatusId = 1,
-            Date = DateTime.Now
-        };
-        _dbContext.Comments.Add(comment);
-        _dbContext.SaveChanges();
-        return comment;
-    }
-
-    public void UpdateComment(int commentId, CommentDto comment)
-    {
-        var commentInDb = ReadComment(commentId);
-
-        commentInDb.StatusId = commentInDb.StatusId;
-        commentInDb.Text = commentInDb.Text;
-        commentInDb.IsBuyerBoughtProduct = comment.IsBuyerBoughtProduct;
-
-        _dbContext.SaveChanges();
+        return true;
     }
 }

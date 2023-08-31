@@ -67,13 +67,14 @@ public class CartRepository : ICartRepository
         _dbContext.SaveChanges();
     }
 
-    public void Delete(int cartItemId)
+    public bool Delete(int cartItemId)
     {
-        var cartItem = _dbContext.CartItem.SingleOrDefault(c => c.Id == cartItemId);
+        var cartItem = Read(cartItemId);
         if (cartItem == null)
-            throw new NotFoundException("Item not found");
+            return false;
 
         _dbContext.CartItem.Remove(cartItem);
         _dbContext.SaveChanges();
+        return true;
     }
 }
