@@ -29,14 +29,17 @@ public class CommentsController : Controller
     }
 
     [HttpPost]
-    public IActionResult Post(CommentDto comment,int productId)
+    public IActionResult Create(CommentDto commentDto, int productId)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
-        return Ok(_repository.CreateComment(productId,comment));
+
+        var comment = _repository.CreateComment(productId, commentDto);
+        return Created(
+            $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}/products/{productId}/comments/{comment.Id}",
+            comment);
     }
 
     [HttpPut]
@@ -46,8 +49,8 @@ public class CommentsController : Controller
         {
             return BadRequest(ModelState);
         }
-        
-        _repository.UpdateComment(commentId,comment);
+
+        _repository.UpdateComment(commentId, comment);
         return Ok();
     }
 }

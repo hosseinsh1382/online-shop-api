@@ -26,11 +26,14 @@ public class BuyersController : Controller
     public IActionResult Get(int id)
     {
         var buyer = _repository.Read(id);
+
+        if (buyer == null)
+            return NotFound();
         return Ok(buyer);
     }
 
     [HttpPost]
-    public IActionResult Add(Buyer buyer)
+    public IActionResult Create(Buyer buyer)
     {
         if (!ModelState.IsValid)
         {
@@ -38,7 +41,7 @@ public class BuyersController : Controller
         }
 
         _repository.Create(buyer);
-        return Created($"Get/{buyer.Id}", buyer);
+        return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}/api/Buyers/{buyer.Id}", buyer);
     }
 
     [HttpPut("{id}")]

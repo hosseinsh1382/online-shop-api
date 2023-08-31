@@ -4,7 +4,7 @@ using online_shop.Exceptions;
 using online_shop.Interfaces;
 using online_shop.Models;
 
-namespace online_shop.Repository;
+namespace online_shop.Repositories;
 
 public class OrderRepository : IOrderRepository
 {

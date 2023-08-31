@@ -16,14 +16,18 @@ public class ReceiptsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Get(int buyerId)
+    public IActionResult GetReceipts(int buyerId)
     {
         return Ok(_repository.ReadAllReceipts(buyerId));
     }
 
     [HttpGet("{receiptId}")]
-    public IActionResult Get(int buyerId, int receiptId)
+    public IActionResult GetReceipt(int buyerId, int receiptId)
     {
-        return Ok(_repository.ReadReceipt(receiptId));
+        var receipt = _repository.ReadReceipt(receiptId);
+        if (receipt == null)
+            return NotFound();
+
+        return Ok(receipt);
     }
 }

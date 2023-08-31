@@ -4,7 +4,7 @@ using online_shop.Exceptions;
 using online_shop.Interfaces;
 using online_shop.Models;
 
-namespace online_shop.Repository;
+namespace online_shop.Repositories;
 
 public class CartRepository : ICartRepository
 {
@@ -26,14 +26,14 @@ public class CartRepository : ICartRepository
             .ToList();
     }
 
-    public CartItem Read(int cartItemId)
+    public CartItem? Read(int cartItemId)
     {
-        var cartItem = _dbContext.CartItem.SingleOrDefault(c => c.Id == cartItemId);
-
-        if (cartItem == null)
-            throw new NotFoundException("Item not found");
-
-        return cartItem;
+        return _dbContext.CartItem
+            .Include(c => c.Product)
+            .ThenInclude(p => p.Fields)
+            .Include(c => c.Product)
+            .ThenInclude(p => p.Category)
+            .SingleOrDefault(c => c.Id == cartItemId);
     }
 
     public ICollection<CartItem> AddToCart(CartItem cartItem)
@@ -76,6 +76,4 @@ public class CartRepository : ICartRepository
         _dbContext.CartItem.Remove(cartItem);
         _dbContext.SaveChanges();
     }
-    
-
 }

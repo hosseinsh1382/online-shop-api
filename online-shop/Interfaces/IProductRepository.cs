@@ -7,7 +7,7 @@ namespace online_shop.Interfaces;
 public interface IProductRepository
 {
     ICollection<Product> ReadAll();
-    Product Read(int id);
+    Product? Read(int id);
     void Create(Product product);
     void Update(int id, Product product);
     void Delete(int id);

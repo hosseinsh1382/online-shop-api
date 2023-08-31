@@ -4,7 +4,7 @@ using online_shop.Exceptions;
 using online_shop.Interfaces;
 using online_shop.Models;
 
-namespace online_shop.Repository;
+namespace online_shop.Repositories;
 
 public class ReceiptRepository : IReceiptRepository
 {
@@ -26,12 +26,13 @@ public class ReceiptRepository : IReceiptRepository
         return receipts;
     }
 
-    public Receipt ReadReceipt(int receiptId)
+    public Receipt? ReadReceipt(int receiptId)
     {
-        var receipt = _dbContext.Receipt.SingleOrDefault(r => r.Id == receiptId);
-        if (receipt == null)
-            throw new NotFoundException("Receipt not found");
-        return receipt;
+        return _dbContext.Receipt
+            .Include(r => r.ReceiptCartItems)
+            .ThenInclude(c => c.Product)
+            .ThenInclude(p => p.Fields)
+            .SingleOrDefault(r => r.Id == receiptId);
     }
 
     public Receipt CreateReceipt(int buyerId, ICollection<CartItem> cart)

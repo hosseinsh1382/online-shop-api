@@ -1,12 +1,10 @@
-﻿using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using online_shop.Data;
 using online_shop.Exceptions;
 using online_shop.Interfaces;
-using online_shop.Models;
 using online_shop.Models.Account;
 
-namespace online_shop.Repository;
+namespace online_shop.Repositories;
 
 public class BuyerRepository : IBuyerRepository
 {
@@ -33,9 +31,9 @@ public class BuyerRepository : IBuyerRepository
             .ToList();
     }
 
-    public Buyer Read(int id)
+    public Buyer? Read(int id)
     {
-        var buyer = _dbContext.Buyers
+        return _dbContext.Buyers
             .Include(b => b.Roll)
             .Include(b => b.Receipts)!
             .ThenInclude(r => r.ReceiptCartItems)
@@ -52,9 +50,6 @@ public class BuyerRepository : IBuyerRepository
             .ThenInclude(c => c.Product)
             .ThenInclude(p => p.Fields)
             .SingleOrDefault(b => b.Id == id);
-        if (buyer == null)
-            throw new NotFoundException("Buyer not found");
-        return buyer;
     }
 
     public Buyer Create(Buyer buyer)

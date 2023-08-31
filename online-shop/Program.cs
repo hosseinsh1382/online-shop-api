@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using online_shop.Data;
 using online_shop.Interfaces;
 using online_shop.Models;
-using online_shop.Repository;
+using online_shop.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -5,7 +5,7 @@ using online_shop.Interfaces;
 using online_shop.Models;
 using online_shop.Models.Product;
 
-namespace online_shop.Repository;
+namespace online_shop.Repositories;
 
 public class ProductRepository : IProductRepository
 {
@@ -25,9 +25,9 @@ public class ProductRepository : IProductRepository
             .ToList();
     }
 
-    public Product Read(int id)
+    public Product? Read(int id)
     {
-        return _dbContext.Products.Single(p => p.Id == id);
+        return _dbContext.Products.SingleOrDefault(p => p.Id == id);
     }
 
     public void Create(Product product)
