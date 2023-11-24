@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using online_shop.Interfaces;
 using online_shop.Models.Product;
 
@@ -32,8 +33,9 @@ public class ProductsController : Controller
         return Ok(product);
     }
 
+    [Authorize(policy:"AdminOnly")]
     [HttpPost]
-    public IActionResult Create(Product product)
+    public IActionResult Create([FromBody]Product product)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

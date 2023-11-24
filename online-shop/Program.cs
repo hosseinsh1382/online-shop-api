@@ -1,9 +1,9 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
 using online_shop.Data;
-using online_shop.Dtos;
 using online_shop.Interfaces;
-using online_shop.Models.Account;
 using online_shop.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +17,22 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey =
+            new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("SecretKey") ?? string.Empty))
+    });
+builder.Services.AddAuthorization(options =>
+    options.AddPolicy("AdminOnly", 
+        policy => policy.RequireClaim("roll", "admin", "Admin")));
+
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 builder.Services.AddTransient<ICartRepository, CartRepository>();

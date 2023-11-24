@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using online_shop.Data;
 using online_shop.Dtos;
@@ -47,10 +48,12 @@ public class IdentityRepository : IIdentityRepository
 
     private string TokenGenerator(int id)
     {
-        var user = _dbContext.Accounts.FirstOrDefault(a => a.Id == id);
+        var user = _dbContext.Accounts.Include(a => a.Roll).FirstOrDefault(a => a.Id == id);
+        Console.WriteLine();
         var claims = new List<Claim>
         {
-            new Claim("id", user.Id.ToString())
+            new Claim("id", user.Id.ToString()),
+            new Claim("roll",user.Roll.Roll)
         };
         var jwt = new JwtSecurityToken(
             claims: claims,
