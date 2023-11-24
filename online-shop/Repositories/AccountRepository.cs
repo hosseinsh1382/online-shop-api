@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using online_shop.Data;
-using online_shop.Exceptions;
 using online_shop.Interfaces;
 using online_shop.Models.Account;
 
 namespace online_shop.Repositories;
 
-public class BuyerRepository :IBuyerRepository
+public class AccountRepository :IAccountRepository
 {
     private ApplicationDbContext _dbContext;
 
-    public BuyerRepository(ApplicationDbContext dbContext)
+    public AccountRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -50,13 +49,6 @@ public class BuyerRepository :IBuyerRepository
             .ThenInclude(c => c.Product)
             .ThenInclude(p => p.Fields)
             .SingleOrDefault(b => b.Id == id);
-    }
-
-    public Account Create(Account buyer)
-    {
-        _dbContext.Accounts.Add(buyer);
-        _dbContext.SaveChanges();
-        return buyer;
     }
 
     public bool Update(int id, Account buyer)

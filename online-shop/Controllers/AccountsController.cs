@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using online_shop.Interfaces;
 using online_shop.Models.Account;
 
@@ -7,11 +6,11 @@ namespace online_shop.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BuyersController : Controller
+public class AccountsController : Controller
 {
-    private IBuyerRepository _repository;
+    private IAccountRepository _repository;
 
-    public BuyersController(IBuyerRepository repository)
+    public AccountsController(IAccountRepository repository)
     {
         _repository = repository;
     }
@@ -31,20 +30,6 @@ public class BuyersController : Controller
             return NotFound();
         return Ok(buyer);
     }
-
-    [HttpPost]
-    public IActionResult Create(Account buyer)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        _repository.Create(buyer);
-        return Created(
-            $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}/api/Buyers/{buyer.Id}", buyer);
-    }
-
     [HttpPut("{id}")]
     public IActionResult Update(int id, Account buyer)
     {

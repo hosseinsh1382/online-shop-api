@@ -2,11 +2,10 @@
 
 namespace online_shop.Interfaces;
 
-public interface IBuyerRepository
+public interface IAccountRepository
 {
     ICollection<Account> ReadAll();
     Account? Read(int id);
-    Account Create(Account buyer);
     bool Update(int id, Account buyer);
     bool Delete(int id);
 }
