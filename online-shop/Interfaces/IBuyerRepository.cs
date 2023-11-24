@@ -4,9 +4,9 @@ namespace online_shop.Interfaces;
 
 public interface IBuyerRepository
 {
-    ICollection<Buyer> ReadAll();
-    Buyer? Read(int id);
-    Buyer Create(Buyer buyer);
-    bool Update(int id, Buyer buyer);
+    ICollection<Account> ReadAll();
+    Account? Read(int id);
+    Account Create(Account buyer);
+    bool Update(int id, Account buyer);
     bool Delete(int id);
 }

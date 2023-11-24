@@ -6,7 +6,7 @@ using online_shop.Models;
 
 namespace online_shop.Repositories;
 
-public class OrderRepository : IOrderRepository
+public class OrderRepository :IOrderRepository
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IReceiptRepository _receiptRepository;
@@ -24,7 +24,7 @@ public class OrderRepository : IOrderRepository
             .Include(c => c.Product)
             .ToList();
         var totalPrice = cart.Sum(c => c.Product.Price * c.Count);
-        var buyer = _dbContext.Buyers.Single(b => b.Id == buyerId);
+        var buyer = _dbContext.Accounts.Single(b => b.Id == buyerId);
 
         if (buyer.Credit < totalPrice)
         {
@@ -41,6 +41,5 @@ public class OrderRepository : IOrderRepository
         var receipt = _receiptRepository.CreateReceipt(buyerId, cart);
         _dbContext.SaveChanges();
         return receipt;
-        // return null;
     }
 }

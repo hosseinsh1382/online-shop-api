@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using online_shop.Data;
 
@@ -10,9 +11,11 @@ using online_shop.Data;
 namespace online_shop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231124084623_RemoveBuyersEntity")]
+    partial class RemoveBuyersEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,64 +36,10 @@ namespace online_shop.Migrations
                     b.ToTable("CommentStatus");
                 });
 
-            modelBuilder.Entity("online_shop.Models.Account.Account", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<double?>("Credit")
-                        .HasColumnType("double");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Firstname")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Lastname")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<byte>("RollId")
-                        .HasColumnType("tinyint unsigned");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RollId");
-
-                    b.ToTable("Accounts");
-                });
-
-            modelBuilder.Entity("online_shop.Models.Account.AccountRoll", b =>
-                {
-                    b.Property<byte>("Id")
-                        .HasColumnType("tinyint unsigned");
-
-                    b.Property<string>("Roll")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountRoll");
-                });
-
             modelBuilder.Entity("online_shop.Models.CartItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<int>("BuyerId")
@@ -104,8 +53,6 @@ namespace online_shop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("ProductId");
 
                     b.ToTable("CartItem");
@@ -115,9 +62,6 @@ namespace online_shop.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<int>("BuyerId")
@@ -140,8 +84,6 @@ namespace online_shop.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.HasIndex("ProductId");
 
@@ -220,9 +162,6 @@ namespace online_shop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<int>("BuyerId")
                         .HasColumnType("int");
 
@@ -230,8 +169,6 @@ namespace online_shop.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.ToTable("Receipt");
                 });
@@ -257,23 +194,8 @@ namespace online_shop.Migrations
                     b.ToTable("ReceiptCartItems");
                 });
 
-            modelBuilder.Entity("online_shop.Models.Account.Account", b =>
-                {
-                    b.HasOne("online_shop.Models.Account.AccountRoll", "Roll")
-                        .WithMany()
-                        .HasForeignKey("RollId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Roll");
-                });
-
             modelBuilder.Entity("online_shop.Models.CartItem", b =>
                 {
-                    b.HasOne("online_shop.Models.Account.Account", null)
-                        .WithMany("Cart")
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("online_shop.Models.Product.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
@@ -285,10 +207,6 @@ namespace online_shop.Migrations
 
             modelBuilder.Entity("online_shop.Models.Comment", b =>
                 {
-                    b.HasOne("online_shop.Models.Account.Account", null)
-                        .WithMany("PostedComments")
-                        .HasForeignKey("AccountId");
-
                     b.HasOne("online_shop.Models.Product.Product", null)
                         .WithMany("Comments")
                         .HasForeignKey("ProductId")
@@ -324,13 +242,6 @@ namespace online_shop.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("online_shop.Models.Receipt", b =>
-                {
-                    b.HasOne("online_shop.Models.Account.Account", null)
-                        .WithMany("Receipts")
-                        .HasForeignKey("AccountId");
-                });
-
             modelBuilder.Entity("online_shop.Models.ReceiptCartItem", b =>
                 {
                     b.HasOne("online_shop.Models.Product.Product", "Product")
@@ -346,15 +257,6 @@ namespace online_shop.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("online_shop.Models.Account.Account", b =>
-                {
-                    b.Navigation("Cart");
-
-                    b.Navigation("PostedComments");
-
-                    b.Navigation("Receipts");
                 });
 
             modelBuilder.Entity("online_shop.Models.Product.Product", b =>

@@ -6,7 +6,7 @@ using online_shop.Models.Account;
 
 namespace online_shop.Repositories;
 
-public class BuyerRepository : IBuyerRepository
+public class BuyerRepository :IBuyerRepository
 {
     private ApplicationDbContext _dbContext;
 
@@ -15,9 +15,9 @@ public class BuyerRepository : IBuyerRepository
         _dbContext = dbContext;
     }
 
-    public ICollection<Buyer> ReadAll()
+    public ICollection<Account> ReadAll()
     {
-        return _dbContext.Buyers
+        return _dbContext.Accounts
             .Include(b => b.Roll)
             .Include(b => b.Receipts)!
             .ThenInclude(r => r.ReceiptCartItems)
@@ -31,9 +31,9 @@ public class BuyerRepository : IBuyerRepository
             .ToList();
     }
 
-    public Buyer? Read(int id)
+    public Account? Read(int id)
     {
-        return _dbContext.Buyers
+        return _dbContext.Accounts
             .Include(b => b.Roll)
             .Include(b => b.Receipts)!
             .ThenInclude(r => r.ReceiptCartItems)
@@ -52,14 +52,14 @@ public class BuyerRepository : IBuyerRepository
             .SingleOrDefault(b => b.Id == id);
     }
 
-    public Buyer Create(Buyer buyer)
+    public Account Create(Account buyer)
     {
-        _dbContext.Buyers.Add(buyer);
+        _dbContext.Accounts.Add(buyer);
         _dbContext.SaveChanges();
         return buyer;
     }
 
-    public bool Update(int id, Buyer buyer)
+    public bool Update(int id, Account buyer)
     {
         var buyerInDb = Read(id);
 
@@ -73,6 +73,7 @@ public class BuyerRepository : IBuyerRepository
         buyerInDb.Firstname = buyer.Firstname;
         buyerInDb.Lastname = buyer.Lastname;
         buyerInDb.Credit = buyer.Credit;
+        
 
         _dbContext.SaveChanges();
         return true;
@@ -83,11 +84,10 @@ public class BuyerRepository : IBuyerRepository
         var buyer = Read(id);
 
         if (buyer==null)
-        {
             return false;
-        }
+        
 
-        _dbContext.Buyers.Remove(buyer);
+        _dbContext.Accounts.Remove(buyer);
         _dbContext.SaveChanges();
 
         return true;

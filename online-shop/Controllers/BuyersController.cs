@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using online_shop.Interfaces;
 using online_shop.Models.Account;
 
@@ -14,14 +15,14 @@ public class BuyersController : Controller
     {
         _repository = repository;
     }
-
+    
     [HttpGet]
     public IActionResult Get()
     {
         return Ok(_repository.ReadAll());
     }
 
-    [HttpGet("{id}", Name = "GetBuyer")]
+    [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
         var buyer = _repository.Read(id);
@@ -32,7 +33,7 @@ public class BuyersController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(Buyer buyer)
+    public IActionResult Create(Account buyer)
     {
         if (!ModelState.IsValid)
         {
@@ -45,7 +46,7 @@ public class BuyersController : Controller
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, Buyer buyer)
+    public IActionResult Update(int id, Account buyer)
     {
         if (!ModelState.IsValid)
             return BadRequest();

@@ -12,9 +12,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Comment> Comments { get; set; }
     public DbSet<ProductCategory> ProductCategory { get; set; }
     public DbSet<ReceiptCartItem> ReceiptCartItems { get; set; }
-    public DbSet<Buyer> Buyers { get; set; }
     public DbSet<Receipt> Receipt { get; set; }
     public DbSet<CartItem> CartItem { get; set; }
+    public DbSet<Account> Accounts { get; set; }
     
 
     public ApplicationDbContext(DbContextOptions options) : base(options)
